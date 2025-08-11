@@ -13,7 +13,13 @@ return new class extends Migration
     {
         Schema::create('carts', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('id_user');
+            $table->bigInteger('id_order');
+            $table->enum('status', ['Diterima', 'Tertahan', 'Dibatalkan']);
             $table->timestamps();
+
+            $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('id_order')->references('id')->on('orders')->onDelete('cascade');
         });
     }
 
