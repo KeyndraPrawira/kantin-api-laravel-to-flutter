@@ -13,10 +13,27 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('id_produk');
-            $table->bigInteger('id_kategori');
+            $table->unsignedBigInteger('id_user');
+            $table->unsignedBigInteger('id_produk');
+            $table->string('kode');
+            $table->Integer('total');
             $table->timestamps();
 
+            $table->foreign('id_produk')->references('id')->on('produks')->onDelete('cascade');
+            $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
+
+        });
+
+
+        Schema::create('order_detail', function(Blueprint $table){
+            $table->id();
+            $table->unsignedBigInteger('id_order');
+            $table->unsignedBigInteger('id_produk');
+            $table->integer('jumlah');
+            $table->bigInteger('subtotal');
+
+
+            $table->foreign('id_order')->references('id')->on('orders')->onDelete('cascade');
             $table->foreign('id_produk')->references('id')->on('produks')->onDelete('cascade');
         });
     }
